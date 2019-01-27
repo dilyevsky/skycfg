@@ -1,0 +1,12 @@
+pb = proto.package("google.protobuf")
+v2 = proto.package("envoy.api.v2")
+
+def duration():
+    return v2.Cluster(
+        lb_policy=v2.Cluster.LbPolicy.ROUND_ROBIN,  # RR is the default, but let's be explicit
+        type=v2.Cluster.DiscoveryType.STRICT_DNS,
+        connect_timeout=pb.Duration(seconds=0, nanos=500000000),  #0.5 seconds
+        name="no_duration")
+
+def main(ctx):
+    return [duration()]
